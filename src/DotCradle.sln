@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotCradle", "DotCradle\DotCradle.csproj", "{669FEADC-EFDD-46B3-A57A-B75C8E5A850E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{669FEADC-EFDD-46B3-A57A-B75C8E5A850E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{669FEADC-EFDD-46B3-A57A-B75C8E5A850E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{669FEADC-EFDD-46B3-A57A-B75C8E5A850E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{669FEADC-EFDD-46B3-A57A-B75C8E5A850E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
