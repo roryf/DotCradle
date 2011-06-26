@@ -25,12 +25,32 @@ namespace DotCradle.Impl
             throw new NotImplementedException();
         }
 
+        public string Destroy()
+        {
+            throw new NotImplementedException();
+        }
+
         public string All()
         {
             throw new NotImplementedException();
         }
 
         public string Info()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string Get(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string Get(string id, string rev)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string Head(string id)
         {
             throw new NotImplementedException();
         }
