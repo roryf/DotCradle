@@ -23,8 +23,6 @@ A very rough list of stuff:
 6. update doc
 7. delete doc
 8. update multiple docs
-9. get view
-10. add view
 11. attachments
 12. rake build file
 13. NuGet package
