@@ -132,6 +132,11 @@ namespace DotCradle.Impl
             return RawRequest("delete", path);
         }
 
+        public CradleResponse Delete(string path, IDictionary<string, string> urlParams)
+        {
+            return RawRequest("delete", path, urlParams);
+        }
+
         public string Databases()
         {
             return Get("_all_dbs").Data;

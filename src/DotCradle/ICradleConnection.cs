@@ -11,6 +11,7 @@ namespace DotCradle
         CradleResponse Put(string path, string data);
         CradleResponse Head(string path);
         CradleResponse Delete(string path);
+        CradleResponse Delete(string path, IDictionary<string, string> urlParams);
         string Databases();
         string Uuids(int count);
         string Info();

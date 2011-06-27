@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 
 namespace DotCradle.Impl
@@ -38,42 +39,42 @@ namespace DotCradle.Impl
 
         public string All()
         {
-            throw new NotImplementedException();
+            return _connection.Get(GetPath("/_all_docs")).Data;
         }
 
         public string Info()
         {
-            throw new NotImplementedException();
+            return _connection.Get(GetPath("/")).Data;
         }
 
         public string Get(string id)
         {
-            throw new NotImplementedException();
+            return _connection.Get(GetPath("/" + id)).Data;
         }
 
         public string Get(string id, string rev)
         {
-            throw new NotImplementedException();
+            return _connection.Get(GetPath("/" + id), new Dictionary<string, string> {{"rev", rev}}).Data;
         }
 
         public string Head(string id)
         {
-            throw new NotImplementedException();
+            return _connection.Head(GetPath("/" + id)).Data;
         }
 
         public string Put(string id, string doc)
         {
-            throw new NotImplementedException();
+            return _connection.Put(GetPath("/" + id), doc).Data;
         }
 
         public string Post(string doc)
         {
-            throw new NotImplementedException();
+            return _connection.Post(GetPath("/"), doc).Data;
         }
 
         public string Delete(string id, string rev)
         {
-            throw new NotImplementedException();
+            return _connection.Delete(GetPath("/" + id), new Dictionary<string, string> { { "rev", rev } }).Data;
         }
     }
 }
