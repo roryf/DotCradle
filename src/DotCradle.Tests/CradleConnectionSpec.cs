@@ -7,7 +7,7 @@ namespace DotCradle.Tests
     [TestFixture]
     public class CradleConnectionSpec : SpecificationBase
     {
-        private ICradleConnection _connection;
+        private CradleConnection _connection;
 
         public override void Because()
         {

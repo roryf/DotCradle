@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 
 namespace DotCradle.Impl
 {
@@ -15,19 +16,24 @@ namespace DotCradle.Impl
 
         public string Name { get { return _name; }}
 
+        private string GetPath(string path)
+        {
+            return string.Join("/", _name, path);
+        }
+
         public bool Exists()
         {
-            throw new NotImplementedException();
+            return _connection.Head(GetPath("/")).StatusCode != HttpStatusCode.NotFound;
         }
 
         public string Create()
         {
-            throw new NotImplementedException();
+            return _connection.Put(GetPath("/")).Data;
         }
 
         public string Destroy()
         {
-            throw new NotImplementedException();
+            return _connection.Delete(GetPath("/")).Data;
         }
 
         public string All()

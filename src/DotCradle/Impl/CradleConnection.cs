@@ -19,17 +19,17 @@ namespace DotCradle.Impl
             _options = options;
         }
 
-        private string RawRequest(string method, string path)
+        private CradleResponse RawRequest(string method, string path)
         {
             return RawRequest(method, path, new Dictionary<string, string>());
         }
 
-        private string RawRequest(string method, string path, IDictionary<string, string> urlParams)
+        private CradleResponse RawRequest(string method, string path, string data)
         {
-            return RawRequest(method, path, urlParams, null);
+            return RawRequest(method, path, new Dictionary<string, string>(), data);
         }
 
-        private string RawRequest(string method, string path, IDictionary<string, string> urlParams, string data)
+        private CradleResponse RawRequest(string method, string path, IDictionary<string, string> urlParams, string data = null)
         {
             path = (string.IsNullOrWhiteSpace(path) ? "/" : path).Replace(new Regex(@"/https?:\/\//"), "").Replace(new Regex(@"/\/{2,}/"), "");
             if (path[0] != '/')
@@ -57,9 +57,28 @@ namespace DotCradle.Impl
                 request.ContentLength = 0;
             }
 
-            var response = request.GetResponse();
-            var responseData = response.GetResponseStream().ReadToEnd();
-            return Encoding.UTF8.GetString(responseData, 0, responseData.Length);
+            var webResponse = (HttpWebResponse)request.GetResponse();
+            var responseData = webResponse.GetResponseStream().ReadToEnd();
+            var content = Encoding.UTF8.GetString(responseData, 0, responseData.Length);
+
+
+            var response = new CradleResponse
+                {
+                    Data = content,
+                    Headers = GetHeaders(webResponse.Headers),
+                    StatusCode = webResponse.StatusCode
+                };
+            return response;
+        }
+
+        private IDictionary<string, string> GetHeaders(WebHeaderCollection webHeaders)
+        {
+            var headers = new Dictionary<string, string>();
+            foreach (var key in webHeaders.AllKeys)
+            {
+                headers[key] = webHeaders[key];
+            }
+            return headers;
         }
 
         private Uri BuildRequestUri(string path, IDictionary<string, string> urlParams)
@@ -78,24 +97,59 @@ namespace DotCradle.Impl
             return new Uri(url);
         }
 
+        public CradleResponse Get(string path)
+        {
+            return RawRequest("get", path);
+        }
+
+        public CradleResponse Get(string path, IDictionary<string, string> urlParams)
+        {
+            return RawRequest("get", path, urlParams);
+        }
+
+        public CradleResponse Post(string path, string data)
+        {
+            return RawRequest("post", path, data);
+        }
+
+        public CradleResponse Put(string path)
+        {
+            return RawRequest("put", path);
+        }
+
+        public CradleResponse Put(string path, string data)
+        {
+            return RawRequest("put", path, data);
+        }
+
+        public CradleResponse Head(string path)
+        {
+            return RawRequest("head", path);
+        }
+
+        public CradleResponse Delete(string path)
+        {
+            return RawRequest("delete", path);
+        }
+
         public string Databases()
         {
-            return RawRequest("get", "_all_dbs");
+            return Get("_all_dbs").Data;
         }
 
         public string Uuids(int count)
         {
-            return RawRequest("get", "_uuids", new Dictionary<string, string> {{"count", count.ToString()}});
+            return Get("_uuids", new Dictionary<string, string> { { "count", count.ToString() } }).Data;
         }
 
         public string Info()
         {
-            return RawRequest("get", "/");
+            return Get("/").Data;
         }
 
         public string Config()
         {
-            return RawRequest("get", "_config");
+            return Get("_config").Data;
         }
 
         public ICradleDb Database(string name)
