@@ -5,37 +5,88 @@ using NUnit.Framework;
 namespace DotCradle.Tests
 {
     [TestFixture]
-    public class CradleDbSpecs : SpecificationBase
+    public class when_checking_if_db_exists : SpecificationBase
     {
-        private CradleConnection _connection;
+        private ICradleConnection conn;
+        private ICradleDb db;
+
+        public override void Given()
+        {
+            conn = new CradleConnection(CradleConnectionOptions.Localhost);
+        }
 
         public override void Because()
         {
-            _connection = new CradleConnection(CradleConnectionOptions.Localhost);
-        }
-
-        private CradleDb Db(string name)
-        {
-            return new CradleDb(name, _connection);
+            db = conn.Database("foobar");
         }
 
         [Test]
-        public void Can_check_if_db_exists()
+        public void should_return_false()
         {
-            Db("foobar").Exists().ShouldBeTrue();
+            db.Exists().ShouldBeFalse();
+        }
+    }
+
+    [TestFixture]
+    public class when_creating_db : SpecificationBase
+    {
+        private ICradleConnection conn;
+        private ICradleDb db;
+        private string result;
+
+        public override void Given()
+        {
+            conn = new CradleConnection(CradleConnectionOptions.Localhost);
+            db = conn.Database("foobar");
+        }
+
+        public override void Because()
+        {
+            result = db.Create();
         }
 
         [Test]
-        public void Can_create_db()
+        public void should_get_response()
         {
-            Db("notfound").Create().Length.ShouldBeGreaterThan(0);
+            result.Length.ShouldBeGreaterThan(0);
         }
 
         [Test]
-        public void Can_destroy_db()
+        public void db_should_exist()
         {
-            Db("foobar").Destroy().Length.ShouldBeGreaterThan(0);
-            Db("foobar").Exists().ShouldBeFalse();
+            db.Exists().ShouldBeTrue();
+        }
+    }
+
+    [TestFixture]
+    public class when_destroying_db : SpecificationBase
+    {
+        private ICradleConnection conn;
+        private ICradleDb db;
+        private string result;
+
+        public override void Given()
+        {
+            conn = new CradleConnection(CradleConnectionOptions.Localhost);
+            conn.Put("/foobar");
+            db = conn.Database("foobar");
+        }
+
+        public override void Because()
+        {
+            result = db.Destroy();
+        }
+
+        [Test]
+        public void should_get_response()
+        {
+            result.Length.ShouldBeGreaterThan(0);
+        }
+
+        [Test]
+        public void db_should_not_exist()
+        {
+            db.Exists().ShouldBeFalse();
         }
     }
 }
