@@ -77,16 +77,41 @@ namespace DotCradle.Impl
                 request.ContentLength = 0;
             }
 
-            var webResponse = (HttpWebResponse)request.GetResponse();
+            HttpWebResponse webResponse = null;
+            try
+            {
+                webResponse = (HttpWebResponse)request.GetResponse();
+                return GetResponse(webResponse);
+            }
+            catch (WebException ex)
+            {
+                if (ex.Status != WebExceptionStatus.ProtocolError)
+                {
+                    throw;
+                }
+                webResponse = (HttpWebResponse) ex.Response;
+                return GetResponse(webResponse);
+            }
+            finally
+            {
+                if (webResponse != null)
+                {
+                    webResponse.Close();
+                }
+            }
+        }
+
+        private CradleResponse GetResponse(HttpWebResponse webResponse)
+        {
             var responseData = webResponse.GetResponseStream().ReadToEnd();
             var content = Encoding.UTF8.GetString(responseData, 0, responseData.Length);
-
 
             var response = new CradleResponse
             {
                 Data = content,
                 Headers = GetHeaders(webResponse.Headers),
-                StatusCode = webResponse.StatusCode
+                StatusCode = webResponse.StatusCode,
+                StatusDescription = webResponse.StatusDescription
             };
             return response;
         }
