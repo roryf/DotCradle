@@ -12,7 +12,7 @@ namespace DotCradle.Impl
 {
     public class CradleRequest
     {
-        private string _httpMethod;
+        private string _httpVerb;
         private string _path;
         private string _data;
         private IDictionary<string, string> _urlParams;
@@ -25,9 +25,9 @@ namespace DotCradle.Impl
             return request;
         }
 
-        public CradleRequest WithHttpMethod(string method)
+        public CradleRequest WithHttpVerb(string verb)
         {
-            _httpMethod = method;
+            _httpVerb = verb;
             return this;
         }
 
@@ -60,7 +60,7 @@ namespace DotCradle.Impl
             var requestUri = BuildRequestUri(path, _urlParams);
 
             var request = (HttpWebRequest)WebRequest.Create(requestUri);
-            request.Method = _httpMethod.ToUpper();
+            request.Method = _httpVerb.ToUpper();
             request.UserAgent = string.Format(CultureInfo.InvariantCulture, "DotCradle/{0}",
                                                   System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
             if (!string.IsNullOrWhiteSpace(_data))

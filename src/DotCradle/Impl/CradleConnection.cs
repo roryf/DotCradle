@@ -32,7 +32,7 @@ namespace DotCradle.Impl
         private CradleResponse Request(string method, string path, IDictionary<string, string> urlParams, string data = null)
         {
             return
-                CradleRequest.WithOptions(_options).WithHttpMethod(method).WithPath(path).WithUrlParameters(urlParams).
+                CradleRequest.WithOptions(_options).WithHttpVerb(method).WithPath(path).WithUrlParameters(urlParams).
                     WithPostData(data).Execute();
         }
 
