@@ -65,12 +65,15 @@ namespace DotCradle.Impl
                                                   System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
             if (!string.IsNullOrWhiteSpace(_data))
             {
+
                 var byteArray = Encoding.UTF8.GetBytes(_data);
-                var dataStream = request.GetRequestStream();
-                dataStream.Write(byteArray, 0, byteArray.Length);
-                dataStream.Close();
                 request.ContentLength = byteArray.Length;
                 request.ContentType = "application/json";
+                using (var dataStream = request.GetRequestStream())
+                {
+                    dataStream.Write(byteArray, 0, byteArray.Length);
+                    dataStream.Close();
+                }
             }
             else
             {
