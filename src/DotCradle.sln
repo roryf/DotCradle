@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotCradle", "DotCradle\DotCradle.csproj", "{669FEADC-EFDD-46B3-A57A-B75C8E5A850E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotCradle.Tests", "DotCradle.Tests\DotCradle.Tests.csproj", "{DC84E720-1C57-4A44-9313-2D0EC75274DD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotCradle.Specs", "DotCradle.Specs\DotCradle.Specs.csproj", "{DC84E720-1C57-4A44-9313-2D0EC75274DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

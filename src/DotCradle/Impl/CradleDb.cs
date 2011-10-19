@@ -24,7 +24,7 @@ namespace DotCradle.Impl
 
         public bool Exists()
         {
-            return _connection.Head(GetPath("/")).StatusCode != HttpStatusCode.NotFound;
+            return _connection.Head(GetPath("/")).StatusCode == HttpStatusCode.OK;
         }
 
         public string Create()
